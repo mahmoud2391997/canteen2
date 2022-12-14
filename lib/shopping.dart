@@ -1,0 +1,121 @@
+import 'package:canteen2/variables.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
+class shoppingScreen extends StatefulWidget {
+  const shoppingScreen({super.key});
+
+  @override
+  State<shoppingScreen> createState() => _shoppingScreenState();
+}
+
+class _shoppingScreenState extends State<shoppingScreen> {
+  // Stream<DocumentSnapshot> result = FirebaseFirestore.instance
+  //     .collection('products')
+  //     .doc('FJIyTUnyimFj9aNAccUt')
+  //     .snapshots();
+
+  // Future<DocumentSnapshot> getLength() async {
+  //   FirebaseFirestore.instance
+  //       .collection('products')
+  //       .get()
+  //       .then((value) => {length = value.docs.length});
+
+  // }
+  late String value1;
+  Future<void> function() async {
+    CollectionReference products =
+        FirebaseFirestore.instance.collection('products');
+    QuerySnapshot allResult = await products.get();
+    allResult.docs.forEach((DocumentSnapshot result) {
+      value1 = result.get('name');
+    });
+  }
+
+  @override
+  void initState() {
+    function();
+
+    super.initState();
+  }
+
+  late String value2;
+  Future<void> function2() async {
+    CollectionReference products =
+        FirebaseFirestore.instance.collection('products');
+    QuerySnapshot allResult = await products.get();
+    allResult.docs.forEach((DocumentSnapshot result) {
+      @override
+      void initState() {
+        function2();
+        value2 = result.get('price');
+        super.initState();
+      }
+    });
+  }
+
+  late String value3;
+  Future<void> function3() async {
+    CollectionReference products =
+        FirebaseFirestore.instance.collection('products');
+    QuerySnapshot allResult = await products.get();
+    allResult.docs.forEach((DocumentSnapshot result) {
+      @override
+      void initState() {
+        function3();
+        value3 = result.get('image');
+        super.initState();
+      }
+    });
+  }
+  // DocumentSnapshot
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            title: Text(
+              'products',
+              style: TextStyle(color: Colors.blue),
+            )),
+        // body: GridView.builder(
+        //   itemCount: length,
+        //   shrinkWrap: true,
+        //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        //     crossAxisCount: 2,
+        //     childAspectRatio: 0.68,
+        //   ),
+        //   itemBuilder: (_, index) {
+        //     return buildFeaturedProduct(
+        //         Result!['name'], Result!['price'], Result!['image']);
+        //   },
+        // ),
+        body: FutureBuilder(
+            future: FirebaseFirestore.instance.collection('products').get(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              return GridView.builder(
+                shrinkWrap: true,
+                itemCount: (snapshot.data! as dynamic).docs.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.68,
+                ),
+                itemBuilder: (context, index) {
+                  DocumentSnapshot snap =
+                      (snapshot.data! as dynamic).docs[index];
+
+                  return buildFeaturedProduct(
+                      snap['name'], snap['price'], snap['image']);
+                },
+              );
+            }));
+  }
+}
