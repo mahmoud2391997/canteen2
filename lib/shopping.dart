@@ -1,6 +1,11 @@
+import 'package:canteen2/cart_provider.dart';
 import 'package:canteen2/variables.dart';
+import 'package:canteen2/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'cart_model.dart';
 
 class shoppingScreen extends StatefulWidget {
   const shoppingScreen({super.key});
@@ -32,13 +37,6 @@ class _shoppingScreenState extends State<shoppingScreen> {
     });
   }
 
-  @override
-  void initState() {
-    function();
-
-    super.initState();
-  }
-
   late String value2;
   Future<void> function2() async {
     CollectionReference products =
@@ -68,6 +66,7 @@ class _shoppingScreenState extends State<shoppingScreen> {
       }
     });
   }
+
   // DocumentSnapshot
 
   @override
@@ -111,9 +110,38 @@ class _shoppingScreenState extends State<shoppingScreen> {
                 itemBuilder: (context, index) {
                   DocumentSnapshot snap =
                       (snapshot.data! as dynamic).docs[index];
+                  CartProvider? cartProvider;
+                  List<ItemModel> mentItemlist = [];
 
-                  return buildFeaturedProduct(
-                      snap['name'], snap['price'], snap['image']);
+                  prepareMenu() {
+                    for (int i = 0;
+                        i < (snapshot.data! as dynamic).docs.length;
+                        i++) {
+                      mentItemlist.add(ItemModel(
+                          name: snap[i]['name'],
+                          price: snap[i]['price'],
+                          image: snap[i]['image']));
+                    }
+                  }
+
+                  ;
+                  @override
+                  void initState() {
+                    prepareMenu();
+
+                    cartProvider =
+                        Provider.of<CartProvider>(context, listen: false);
+                    super.initState();
+                  }
+
+                  return product(
+                    name: snap['name'],
+                    price: snap['price'],
+                    image: snap['image'],
+                    onPressed: () =>
+                        Provider.of<CartModel>(context, listen: false)
+                            .addItemToCart(index),
+                  );
                 },
               );
             }));
