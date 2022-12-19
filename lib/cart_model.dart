@@ -6,20 +6,6 @@ class CartModel extends ChangeNotifier {
   List _shopItems = [];
   // list of items on sale
 
-  Future<List> fetchAllContact() async {
-    await FirebaseFirestore.instance
-        .collection('products')
-        .get()
-        .then((QuerySnapshot snapshot) => snapshot.docs.forEach((document) => {
-              _shopItems.add(ItemModel(
-                  name: document['name'],
-                  price: document['price'],
-                  image: document['image']))
-            }));
-    notifyListeners();
-    return _shopItems;
-  }
-
   // list of cart items
   List _cartItems = [];
 
