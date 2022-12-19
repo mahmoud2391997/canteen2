@@ -17,8 +17,23 @@ class cart extends StatefulWidget {
 String? NAME;
 String? PRICE;
 String? IMAGE;
+int number = 1;
 
 class _cartState extends State<cart> {
+  void _incrementCounter() {
+    setState(() {
+      number++;
+    });
+  }
+
+  void _decrementCounter() {
+    if (number != 1) {
+      setState(() {
+        number--;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +72,7 @@ class _cartState extends State<cart> {
                               fit: BoxFit.fill,
                             )),
                         Padding(
-                          padding: const EdgeInsets.only(left: 60, top: 50),
+                          padding: const EdgeInsets.only(top: 20, left: 20),
                           child: Column(
                             children: [
                               Text(data.cartItems[index]['name']),
@@ -68,12 +83,46 @@ class _cartState extends State<cart> {
                               SizedBox(
                                 height: 6,
                               ),
+                              Container(
+                                width: 110,
+                                color: Colors.grey.shade200,
+                                height: 40,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                      padding: EdgeInsets.only(bottom: 10),
+                                      icon: Icon(
+                                        Icons.minimize,
+                                        color: Colors.black,
+                                      ),
+                                      onPressed: _decrementCounter,
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      '$number',
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.add,
+                                        color: Colors.black,
+                                      ),
+                                      onPressed: _incrementCounter,
+                                    )
+                                  ],
+                                ),
+                              )
                             ],
                           ),
                         ),
                         IconButton(
                             padding:
-                                const EdgeInsets.only(left: 100, bottom: 20),
+                                const EdgeInsets.only(left: 80, bottom: 20),
                             icon: Icon(
                               Icons.close,
                               color: Colors.red,
