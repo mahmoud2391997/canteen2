@@ -34,6 +34,12 @@ class _cartState extends State<cart> {
     }
   }
 
+  void one() {
+    setState(() {
+      number = 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,16 +127,16 @@ class _cartState extends State<cart> {
                           ),
                         ),
                         IconButton(
-                            padding:
-                                const EdgeInsets.only(left: 80, bottom: 20),
-                            icon: Icon(
-                              Icons.close,
-                              color: Colors.red,
-                              size: 50,
-                            ),
-                            onPressed: (() =>
-                                Provider.of<CartModel>(context, listen: false)
-                                    .removeItemFromCart(index))),
+                          padding: const EdgeInsets.only(left: 80, bottom: 20),
+                          icon: Icon(
+                            Icons.close,
+                            color: Colors.red,
+                            size: 50,
+                          ),
+                          onPressed: (() =>
+                              Provider.of<CartModel>(context, listen: false)
+                                  .removeItemFromCart(index)),
+                        ),
                       ],
                     ),
                   );

@@ -1,3 +1,4 @@
+import 'package:canteen2/cart.dart';
 import 'package:canteen2/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class CartModel extends ChangeNotifier {
   void removeItemFromCart(int index) {
     _cartItems.removeAt(index);
     notifyListeners();
+    number = 1;
   }
 
   // calculate total price
