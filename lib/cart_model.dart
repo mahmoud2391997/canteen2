@@ -28,7 +28,7 @@ class CartModel extends ChangeNotifier {
   void removeItemFromCart(int index) {
     _cartItems.removeAt(index);
     notifyListeners();
-    number = 1;
+    number[index] = 1;
   }
 
   // calculate total price

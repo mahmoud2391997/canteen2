@@ -11,6 +11,8 @@ import 'cart_model.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'history.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -112,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: PageView(
         children: const [
-          homeScreen(),
+          history(),
           shoppingScreen(),
           addItem(),
           cart(),
@@ -144,7 +146,8 @@ class _MyHomePageState extends State<MyHomePage> {
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.dashboard,
-                color: (_page == 0) ? Colors.blue : Colors.black,
+                color:
+                    (_page == 0) ? Color.fromARGB(255, 5, 3, 85) : Colors.black,
                 size: 45,
               ),
               label: '',
@@ -153,7 +156,9 @@ class _MyHomePageState extends State<MyHomePage> {
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.add_shopping_cart_outlined,
-                  color: (_page == 1) ? Colors.blue : Colors.black,
+                  color: (_page == 1)
+                      ? Color.fromARGB(255, 5, 3, 85)
+                      : Colors.black,
                   size: 45,
                 ),
                 label: '',
@@ -161,7 +166,9 @@ class _MyHomePageState extends State<MyHomePage> {
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.add_circle,
-                  color: (_page == 2) ? Colors.blue : Colors.black,
+                  color: (_page == 2)
+                      ? Color.fromARGB(255, 5, 3, 85)
+                      : Colors.black,
                   size: 45,
                 ),
                 label: '',
@@ -169,7 +176,8 @@ class _MyHomePageState extends State<MyHomePage> {
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.shopping_basket_outlined,
-                color: (_page == 3) ? Colors.blue : Colors.black,
+                color:
+                    (_page == 3) ? Color.fromARGB(255, 5, 3, 85) : Colors.black,
                 size: 45,
               ),
               label: '',
@@ -178,7 +186,8 @@ class _MyHomePageState extends State<MyHomePage> {
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.notification_add_sharp,
-                color: (_page == 4) ? Colors.blue : Colors.black,
+                color:
+                    (_page == 4) ? Color.fromARGB(255, 5, 3, 85) : Colors.black,
                 size: 45,
               ),
               label: '',

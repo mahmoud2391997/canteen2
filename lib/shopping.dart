@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'cart.dart';
 import 'cart_model.dart';
 
 class shoppingScreen extends StatefulWidget {
@@ -13,6 +14,8 @@ class shoppingScreen extends StatefulWidget {
   @override
   State<shoppingScreen> createState() => _shoppingScreenState();
 }
+
+bool click = false;
 
 class _shoppingScreenState extends State<shoppingScreen> {
   // Stream<DocumentSnapshot> result = FirebaseFirestore.instance
@@ -73,11 +76,11 @@ class _shoppingScreenState extends State<shoppingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: Color.fromARGB(255, 5, 3, 85),
             centerTitle: true,
             title: Text(
               'products',
-              style: TextStyle(color: Colors.blue),
+              style: TextStyle(color: Colors.white),
             )),
         // body: GridView.builder(
         //   itemCount: length,
@@ -113,35 +116,23 @@ class _shoppingScreenState extends State<shoppingScreen> {
                   CartProvider? cartProvider;
                   List<ItemModel> mentItemlist = [];
 
-                  prepareMenu() {
-                    for (int i = 0;
-                        i < (snapshot.data! as dynamic).docs.length;
-                        i++) {
-                      mentItemlist.add(ItemModel(
-                          name: snap[i]['name'],
-                          price: snap[i]['price'],
-                          image: snap[i]['image']));
-                    }
-                  }
-
-                  ;
                   @override
                   void initState() {
-                    prepareMenu();
-
                     cartProvider =
                         Provider.of<CartProvider>(context, listen: false);
                     super.initState();
                   }
 
                   return product(
-                    name: snap['name'],
-                    price: snap['price'],
-                    image: snap['image'],
-                    onPressed: () =>
+                      name: snap['name'],
+                      price: snap['price'],
+                      image: snap['image'],
+                      onPressed: () {
                         Provider.of<CartModel>(context, listen: false)
-                            .addItemToCart(index),
-                  );
+                            .addItemToCart(index);
+                        showToast(
+                            text: 'Added to cart', color: Colors.amberAccent);
+                      });
                 },
               );
             }));

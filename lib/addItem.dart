@@ -63,90 +63,99 @@ class _addItemState extends State<addItem> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Center(
-        child: Container(
-          height: MediaQuery.of(context).size.height / 1.25,
-          width: 200,
-          padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-          decoration: BoxDecoration(
-            color: Color.fromARGB(255, 225, 233, 247),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                height: 300,
-                width: 200,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: SizedBox.fromSize(
-                    size: Size.fromRadius(20),
-                    child: GestureDetector(
-                        onTap: pickUploadProfilePic,
-                        child: profilePicLink == " "
-                            ? const CircleAvatar(
-                                radius: 64,
-                                backgroundImage: NetworkImage(
-                                    'https://www.shutterstock.com/image-vector/outline-add-product-vector-icon-600w-1454270585.jpg'),
-                                backgroundColor: Colors.red,
-                              )
-                            : CircleAvatar(
-                                radius: 64,
-                                backgroundImage: NetworkImage(profilePicLink),
-                                backgroundColor: Colors.red,
-                              )),
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 5, 3, 85),
+          centerTitle: true,
+          title: Text(
+            'Add product',
+            style: TextStyle(color: Colors.white),
+          )),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            height: MediaQuery.of(context).size.height / 1.5,
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 225, 233, 247),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  height: 200,
+                  width: 200,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: SizedBox.fromSize(
+                      size: Size.fromRadius(20),
+                      child: GestureDetector(
+                          onTap: pickUploadProfilePic,
+                          child: profilePicLink == " "
+                              ? const CircleAvatar(
+                                  radius: 64,
+                                  backgroundImage: NetworkImage(
+                                      'https://www.shutterstock.com/image-vector/outline-add-product-vector-icon-600w-1454270585.jpg'),
+                                  backgroundColor: Colors.red,
+                                )
+                              : CircleAvatar(
+                                  radius: 64,
+                                  backgroundImage: NetworkImage(profilePicLink),
+                                  backgroundColor: Colors.red,
+                                )),
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                alignment: Alignment.center,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'add name',
+                Container(
+                  alignment: Alignment.center,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'add name',
+                    ),
+                    controller: name,
                   ),
-                  controller: name,
                 ),
-              ),
-              Container(
-                alignment: Alignment.center,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'add price',
+                Container(
+                  alignment: Alignment.center,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'add price',
+                    ),
+                    controller: price,
                   ),
-                  controller: price,
                 ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: Colors.blueAccent,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: MaterialButton(
-                    onPressed: () {
-                      Map<String, String> dataToSave = {
-                        'name': name.text,
-                        'price': price.text,
-                        'image': profilePicLink,
-                      };
-                      FirebaseFirestore.instance
-                          .collection('products')
-                          .add(dataToSave);
-                    },
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: Text('add product',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            )))),
-              )
-            ],
+                Container(
+                  width: double.infinity,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 5, 3, 85),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: MaterialButton(
+                      onPressed: () {
+                        Map<String, String> dataToSave = {
+                          'name': name.text,
+                          'price': price.text,
+                          'image': profilePicLink,
+                        };
+                        FirebaseFirestore.instance
+                            .collection('products')
+                            .add(dataToSave);
+                      },
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: Text('add product',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              )))),
+                )
+              ],
+            ),
           ),
         ),
       ),
