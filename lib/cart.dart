@@ -33,6 +33,7 @@ showToast({
   );
 }
 
+int? Indexxx;
 int? Indexx;
 String? NAME;
 String? PRICE;
@@ -62,6 +63,22 @@ class _cartState extends State<cart> {
             } else {
               return ListView.separated(
                 itemBuilder: ((context, index) {
+                  void _incrementCounter() {
+                    setState(() {
+                      number[index]++;
+                      Indexx = index;
+                    });
+                  }
+
+                  void _decrementCounter() {
+                    if (number != 1) {
+                      setState(() {
+                        number[index]--;
+                        Indexx = index;
+                      });
+                    }
+                  }
+
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     if (mounted) {
                       setState(() {
@@ -70,20 +87,6 @@ class _cartState extends State<cart> {
                       });
                     }
                   });
-
-                  void _incrementCounter() {
-                    setState(() {
-                      number[index]++;
-                    });
-                  }
-
-                  void _decrementCounter() {
-                    if (number != 1) {
-                      setState(() {
-                        number[index]--;
-                      });
-                    }
-                  }
 
                   return Container(
                     decoration: BoxDecoration(
@@ -185,14 +188,14 @@ class _cartState extends State<cart> {
             onPressed: () {
               if (Indexx != null) {
                 showToast(text: 'Sold successfully', color: Colors.amberAccent);
-
-                Provider.of<CartModel>(context, listen: false)
-                    .removeItemFromCart(Indexx!);
                 setState(() {
                   totalPiecies = totalPiecies + number[Indexx!];
                   totalCash = totalCash + (cash[Indexx!]) * (number[Indexx!]);
+                  Indexxx = Indexx;
                   Indexx = null;
                 });
+                Provider.of<CartModel>(context, listen: false)
+                    .removeItemFromCart(Indexxx!);
               } else {
                 showToast(
                     text: 'Nothing in the cart!', color: Colors.amberAccent);

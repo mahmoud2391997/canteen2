@@ -19,6 +19,7 @@ class _addItemState extends State<addItem> {
   TextEditingController name = TextEditingController();
   TextEditingController price = TextEditingController();
   String profilePicLink = " ";
+  int? pricee;
 
   void pickUploadProfilePic() async {
     final image = await ImagePicker().pickImage(
@@ -136,9 +137,10 @@ class _addItemState extends State<addItem> {
                   ),
                   child: MaterialButton(
                       onPressed: () {
-                        Map<String, String> dataToSave = {
+                        pricee = int.parse(price.text);
+                        Map<String, dynamic> dataToSave = {
                           'name': name.text,
-                          'price': price.text,
+                          'price': pricee,
                           'image': profilePicLink,
                         };
                         FirebaseFirestore.instance

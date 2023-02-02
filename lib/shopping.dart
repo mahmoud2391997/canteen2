@@ -40,7 +40,7 @@ class _shoppingScreenState extends State<shoppingScreen> {
     });
   }
 
-  late String value2;
+  late int value2;
   Future<void> function2() async {
     CollectionReference products =
         FirebaseFirestore.instance.collection('products');
