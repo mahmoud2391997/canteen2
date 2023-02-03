@@ -33,7 +33,6 @@ showToast({
   );
 }
 
-int? Indexxx;
 int? Indexx;
 String? NAME;
 String? PRICE;
@@ -100,9 +99,13 @@ class _cartState extends State<cart> {
                       children: [
                         Container(
                             width: 140,
-                            child: Image.network(
-                              data.cartItems[index]['image'],
-                              fit: BoxFit.fill,
+                            child: ClipRRect(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              child: Image.network(
+                                data.cartItems[index]['image'],
+                                fit: BoxFit.fill,
+                              ),
                             )),
                         Padding(
                           padding: const EdgeInsets.only(top: 20, left: 20),
@@ -187,15 +190,16 @@ class _cartState extends State<cart> {
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               if (Indexx != null) {
+                for (int i = Indexx!; i >= 0; i--) {
+                  setState(() {
+                    totalPiecies = totalPiecies + number[i];
+                    totalCash = totalCash + (cash[i]) * (number[i]);
+                    Indexx = null;
+                  });
+                  Provider.of<CartModel>(context, listen: false)
+                      .removeItemFromCart(i);
+                }
                 showToast(text: 'Sold successfully', color: Colors.amberAccent);
-                setState(() {
-                  totalPiecies = totalPiecies + number[Indexx!];
-                  totalCash = totalCash + (cash[Indexx!]) * (number[Indexx!]);
-                  Indexxx = Indexx;
-                  Indexx = null;
-                });
-                Provider.of<CartModel>(context, listen: false)
-                    .removeItemFromCart(Indexxx!);
               } else {
                 showToast(
                     text: 'Nothing in the cart!', color: Colors.amberAccent);

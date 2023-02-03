@@ -30,10 +30,13 @@ class product extends StatelessWidget {
           Container(
             height: 175,
             width: 200,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: SizedBox.fromSize(
-                  size: Size.fromRadius(20), child: Image.network('$image')),
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: SizedBox.fromSize(
+                    size: Size.fromRadius(20), child: Image.network('$image')),
+              ),
             ),
           ),
           Container(

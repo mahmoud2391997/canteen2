@@ -1,3 +1,4 @@
+import 'package:canteen2/cart.dart';
 import 'package:canteen2/shopping.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class _addItemState extends State<addItem> {
   TextEditingController price = TextEditingController();
   String profilePicLink = " ";
   int? pricee;
+  String? namee;
 
   void pickUploadProfilePic() async {
     final image = await ImagePicker().pickImage(
@@ -100,12 +102,10 @@ class _addItemState extends State<addItem> {
                                   radius: 64,
                                   backgroundImage: NetworkImage(
                                       'https://www.shutterstock.com/image-vector/outline-add-product-vector-icon-600w-1454270585.jpg'),
-                                  backgroundColor: Colors.red,
                                 )
                               : CircleAvatar(
                                   radius: 64,
                                   backgroundImage: NetworkImage(profilePicLink),
-                                  backgroundColor: Colors.red,
                                 )),
                     ),
                   ),
@@ -146,6 +146,15 @@ class _addItemState extends State<addItem> {
                         FirebaseFirestore.instance
                             .collection('products')
                             .add(dataToSave);
+                        setState(() {
+                          name = TextEditingController();
+                          price = TextEditingController();
+
+                          profilePicLink = " ";
+                        });
+                        showToast(
+                            text: 'Added to products',
+                            color: Colors.amberAccent);
                       },
                       child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16.0),
