@@ -33,12 +33,32 @@ showToast({
   );
 }
 
+int X = 0;
+int? Indexxx;
+int? indexx;
 int? Indexx;
 String? NAME;
 String? PRICE;
 String? IMAGE;
 List<int> number = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 List<int> cash = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+List<String> productName = [
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  ''
+];
+List<int> productNum = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
 class _cartState extends State<cart> {
   @override
@@ -83,6 +103,7 @@ class _cartState extends State<cart> {
                       setState(() {
                         Indexx = index;
                         cash[Indexx!] = data.cartItems[index]['price'];
+                        productName[Indexx!] = data.cartItems[index]['name'];
                       });
                     }
                   });
@@ -163,16 +184,17 @@ class _cartState extends State<cart> {
                           ),
                         ),
                         IconButton(
-                          padding: const EdgeInsets.only(left: 80, bottom: 20),
-                          icon: Icon(
-                            Icons.close,
-                            color: Colors.red,
-                            size: 50,
-                          ),
-                          onPressed: (() =>
+                            padding:
+                                const EdgeInsets.only(left: 80, bottom: 20),
+                            icon: Icon(
+                              Icons.close,
+                              color: Colors.red,
+                              size: 50,
+                            ),
+                            onPressed: () {
                               Provider.of<CartModel>(context, listen: false)
-                                  .removeItemFromCart(index)),
-                        ),
+                                  .removeItemFromCart(index);
+                            }),
                       ],
                     ),
                   );
@@ -194,11 +216,18 @@ class _cartState extends State<cart> {
                   setState(() {
                     totalPiecies = totalPiecies + number[i];
                     totalCash = totalCash + (cash[i]) * (number[i]);
+                    Indexxx = Indexx;
+
+                    productNum[i] = number[i];
                     Indexx = null;
+                    X++;
+                    a++;
                   });
+
                   Provider.of<CartModel>(context, listen: false)
                       .removeItemFromCart(i);
                 }
+
                 showToast(text: 'Sold successfully', color: Colors.amberAccent);
               } else {
                 showToast(

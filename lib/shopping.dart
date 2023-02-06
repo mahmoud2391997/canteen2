@@ -3,6 +3,7 @@ import 'package:canteen2/variables.dart';
 import 'package:canteen2/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 import 'cart.dart';
@@ -16,6 +17,9 @@ class shoppingScreen extends StatefulWidget {
 }
 
 bool click = false;
+int I = 1;
+int a = 1;
+int? n;
 
 class _shoppingScreenState extends State<shoppingScreen> {
   // Stream<DocumentSnapshot> result = FirebaseFirestore.instance
@@ -104,37 +108,38 @@ class _shoppingScreenState extends State<shoppingScreen> {
               }
 
               return GridView.builder(
-                shrinkWrap: true,
-                itemCount: (snapshot.data! as dynamic).docs.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.68,
-                ),
-                itemBuilder: (context, index) {
-                  DocumentSnapshot snap =
-                      (snapshot.data! as dynamic).docs[index];
-                  CartProvider? cartProvider;
-                  List<ItemModel> mentItemlist = [];
+                  shrinkWrap: true,
+                  itemCount: (snapshot.data! as dynamic).docs.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.68,
+                  ),
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot snap =
+                        (snapshot.data! as dynamic).docs[index];
+                    CartProvider? cartProvider;
+                    List<ItemModel> mentItemlist = [];
+                    // SchedulerBinding.instance.addPostFrameCallback((_) {
+                    //   setState(() {
+                    //     n = index;
+                    //   });
+                    // });
 
-                  @override
-                  void initState() {
-                    cartProvider =
-                        Provider.of<CartProvider>(context, listen: false);
-                    super.initState();
-                  }
+                    @override
+                    void initState() {
+                      cartProvider =
+                          Provider.of<CartProvider>(context, listen: false);
+                      super.initState();
+                    }
 
-                  return product(
+                    return product(
                       name: snap['name'],
                       price: snap['price'],
                       image: snap['image'],
-                      onPressed: () {
-                        Provider.of<CartModel>(context, listen: false)
-                            .addItemToCart(index);
-                        showToast(
-                            text: 'Added to cart', color: Colors.amberAccent);
-                      });
-                },
-              );
+                      boolean: index,
+                      boolian: false,
+                    );
+                  });
             }));
   }
 }

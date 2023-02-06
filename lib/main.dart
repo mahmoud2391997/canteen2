@@ -10,10 +10,11 @@ import 'package:provider/provider.dart';
 import 'cart_model.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'notification.dart';
 import 'history.dart';
 
 void main() async {
+  Provider.debugCheckInvalidValueType = null;
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
@@ -29,12 +30,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => CartModel(),
+    return MultiProvider(
+        providers: [
+          Provider(
+            create: (context) => CartModel(),
+          ),
+        ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeData(
+            scaffoldBackgroundColor: Colors.grey[300],
             // This is the theme of your application.
             //
             // Try running your application with "flutter run". You'll see the
@@ -118,7 +124,6 @@ class _MyHomePageState extends State<MyHomePage> {
           shoppingScreen(),
           addItem(),
           cart(),
-          notification(),
         ],
         controller: pageController,
         onPageChanged: onPageChanged,
@@ -178,16 +183,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 Icons.shopping_basket_outlined,
                 color:
                     (_page == 3) ? Color.fromARGB(255, 5, 3, 85) : Colors.black,
-                size: 45,
-              ),
-              label: '',
-              backgroundColor: Colors.blueAccent,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.notification_add_sharp,
-                color:
-                    (_page == 4) ? Color.fromARGB(255, 5, 3, 85) : Colors.black,
                 size: 45,
               ),
               label: '',
