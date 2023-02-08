@@ -79,67 +79,56 @@ class _shoppingScreenState extends State<shoppingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Color.fromARGB(255, 5, 3, 85),
-            centerTitle: true,
-            title: Text(
-              'products',
-              style: TextStyle(color: Colors.white),
-            )),
-        // body: GridView.builder(
-        //   itemCount: length,
-        //   shrinkWrap: true,
-        //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        //     crossAxisCount: 2,
-        //     childAspectRatio: 0.68,
-        //   ),
-        //   itemBuilder: (_, index) {
-        //     return buildFeaturedProduct(
-        //         Result!['name'], Result!['price'], Result!['image']);
-        //   },
-        // ),
-        body: FutureBuilder(
-            future: FirebaseFirestore.instance.collection('products').get(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+      appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 5, 3, 85),
+          centerTitle: true,
+          title: Text(
+            'products',
+            style: TextStyle(color: Colors.white),
+          )),
+      body: FutureBuilder(
+          future: FirebaseFirestore.instance.collection('products').get(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-              return GridView.builder(
-                  shrinkWrap: true,
-                  itemCount: (snapshot.data! as dynamic).docs.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.68,
-                  ),
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot snap =
-                        (snapshot.data! as dynamic).docs[index];
-                    CartProvider? cartProvider;
-                    List<ItemModel> mentItemlist = [];
-                    // SchedulerBinding.instance.addPostFrameCallback((_) {
-                    //   setState(() {
-                    //     n = index;
-                    //   });
-                    // });
+            return GridView.builder(
+                shrinkWrap: true,
+                itemCount: (snapshot.data! as dynamic).docs.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.68,
+                ),
+                itemBuilder: (context, index) {
+                  DocumentSnapshot snap =
+                      (snapshot.data! as dynamic).docs[index];
+                  CartProvider? cartProvider;
+                  List<ItemModel> mentItemlist = [];
+                  // SchedulerBinding.instance.addPostFrameCallback((_) {
+                  //   setState(() {
+                  //     n = index;
+                  //   });
+                  // });
 
-                    @override
-                    void initState() {
-                      cartProvider =
-                          Provider.of<CartProvider>(context, listen: false);
-                      super.initState();
-                    }
+                  @override
+                  void initState() {
+                    cartProvider =
+                        Provider.of<CartProvider>(context, listen: false);
+                    super.initState();
+                  }
 
-                    return product(
-                      name: snap['name'],
-                      price: snap['price'],
-                      image: snap['image'],
-                      boolean: index,
-                      boolian: false,
-                    );
-                  });
-            }));
+                  return product(
+                    name: snap['product'],
+                    price: snap['price'],
+                    image: snap['image'],
+                    boolean: index,
+                    boolian: false,
+                  );
+                });
+          }),
+    );
   }
 }

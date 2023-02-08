@@ -4,10 +4,13 @@ import 'package:canteen2/cart_provider.dart';
 import 'package:canteen2/home.dart';
 import 'package:canteen2/notification.dart';
 import 'package:canteen2/shopping.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'cart_model.dart';
+import 'categories.dart';
+import 'category.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'notification.dart';
@@ -121,7 +124,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: PageView(
         children: const [
           history(),
-          shoppingScreen(),
+          categories(),
+          // shoppingScreen(),
           addItem(),
           cart(),
         ],

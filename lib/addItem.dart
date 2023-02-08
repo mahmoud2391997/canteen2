@@ -19,6 +19,7 @@ class _addItemState extends State<addItem> {
   Uint8List? _image;
   TextEditingController name = TextEditingController();
   TextEditingController price = TextEditingController();
+  TextEditingController category = TextEditingController();
   String profilePicLink = " ";
   int? pricee;
   String? namee;
@@ -129,6 +130,15 @@ class _addItemState extends State<addItem> {
                   ),
                 ),
                 Container(
+                  alignment: Alignment.center,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'add category',
+                    ),
+                    controller: category,
+                  ),
+                ),
+                Container(
                   width: double.infinity,
                   height: 60,
                   decoration: BoxDecoration(
@@ -137,24 +147,36 @@ class _addItemState extends State<addItem> {
                   ),
                   child: MaterialButton(
                       onPressed: () {
-                        pricee = int.parse(price.text);
-                        Map<String, dynamic> dataToSave = {
-                          'name': name.text,
-                          'price': pricee,
-                          'image': profilePicLink,
-                        };
-                        FirebaseFirestore.instance
-                            .collection('products')
-                            .add(dataToSave);
-                        setState(() {
-                          name = TextEditingController();
-                          price = TextEditingController();
+                        if (profilePicLink == " " ||
+                            price == null ||
+                            name == null ||
+                            category == null) {
+                          showToast(
+                              text: 'fill in all product info',
+                              color: Colors.amberAccent);
+                        } else {
+                          pricee = int.parse(price.text);
+                          Map<String, dynamic> dataToSave = {
+                            'product': name.text,
+                            'price': pricee,
+                            'image': profilePicLink,
+                          };
+                          FirebaseFirestore.instance
+                              .collection('categories')
+                              .doc('${category.text}')
+                              .collection('products')
+                              .add(dataToSave);
+                          setState(() {
+                            name = TextEditingController();
+                            price = TextEditingController();
+                            category = TextEditingController();
 
-                          profilePicLink = " ";
-                        });
-                        showToast(
-                            text: 'Added to products',
-                            color: Colors.amberAccent);
+                            profilePicLink = " ";
+                          });
+                          showToast(
+                              text: 'Added to products',
+                              color: Colors.amberAccent);
+                        }
                       },
                       child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16.0),
