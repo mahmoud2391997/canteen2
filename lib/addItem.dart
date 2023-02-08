@@ -148,9 +148,9 @@ class _addItemState extends State<addItem> {
                   child: MaterialButton(
                       onPressed: () {
                         if (profilePicLink == " " ||
-                            price == null ||
-                            name == null ||
-                            category == null) {
+                            price.text.isEmpty ||
+                            name.text.isEmpty ||
+                            category.text.isEmpty) {
                           showToast(
                               text: 'fill in all product info',
                               color: Colors.amberAccent);
