@@ -12,8 +12,8 @@ import 'cart_model.dart';
 import 'dart:convert';
 
 class cart extends StatefulWidget {
-  late Map<String, dynamic> fire;
-  cart({super.key, fire});
+  late int index;
+  cart({super.key, index});
 
   @override
   State<cart> createState() => _cartState();
@@ -88,6 +88,7 @@ class _cartState extends State<cart> {
               }
               return ListView.separated(
                 itemBuilder: ((context, index) {
+                  widget.index = index;
                   DocumentSnapshot snappp =
                       (snapshot.data as dynamic).docs[index];
                   void _incrementCounter() {
@@ -219,7 +220,16 @@ class _cartState extends State<cart> {
             }),
         floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              if (Indexx != null) {
+              final snappshot =
+                  await FirebaseFirestore.instance.collection('cart').get();
+              if (snappshot.docs.isNotEmpty) {
+                await FirebaseFirestore.instance
+                    .collection("cart")
+                    .get()
+                    .then((value) => {
+                          for (DocumentSnapshot ds in value.docs)
+                            {ds.reference.delete()}
+                        });
                 for (int i = Indexx!; i >= 0; i--) {
                   setState(() {
                     totalPiecies = totalPiecies + number[i];
@@ -227,19 +237,14 @@ class _cartState extends State<cart> {
                     Indexxx = Indexx;
 
                     productNum[i] = number[i];
-                    Indexx = null;
+
                     X++;
                     a++;
                   });
-
-                  await FirebaseFirestore.instance
-                      .collection("cart")
-                      .get()
-                      .then((value) => {
-                            for (DocumentSnapshot ds in value.docs)
-                              {ds.reference.delete()}
-                          });
                 }
+                setState(() {
+                  Indexx = null;
+                });
 
                 showToast(text: 'Sold successfully', color: Colors.amberAccent);
               } else {
