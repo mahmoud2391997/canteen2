@@ -1,6 +1,5 @@
 import 'package:canteen2/cart.dart';
 import 'package:canteen2/cart_provider.dart';
-import 'package:canteen2/shopping.dart';
 import 'package:canteen2/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -12,15 +11,17 @@ class product extends StatefulWidget {
   final String name;
   final int price;
   final String image;
-  late int boolean;
+  int boolean;
   bool boolian;
+  String doc;
   product(
       {super.key,
       required this.name,
       required this.price,
       required this.image,
       required this.boolean,
-      required this.boolian});
+      required this.boolian,
+      required this.doc});
 
   @override
   State<product> createState() => _productState();
@@ -74,8 +75,18 @@ class _productState extends State<product> {
             MaterialButton(
               onPressed: () async {
                 if (widget.boolian == false) {
-                  Provider.of<CartModel>(context, listen: false)
-                      .addItemToCart(widget.boolean);
+                  CollectionReference cartItem =
+                      FirebaseFirestore.instance.collection('cart');
+                  await cartItem.doc().set({
+                    'cart item': '${widget.name}',
+                    'price': '${widget.price}',
+                    'image': '${widget.image}'
+                  });
+
+                  // await Provider.of<CartModel>(context, listen: false)
+                  //     .fire(widget.boolean, widget.doc);
+                  // await Provider.of<CartModel>(context, listen: false)
+                  //     .addItemToCart(widget.boolean, widget.doc);
                   setState(() {
                     I++;
                     widget.boolian = true;

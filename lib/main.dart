@@ -3,7 +3,6 @@ import 'package:canteen2/cart.dart';
 import 'package:canteen2/cart_provider.dart';
 import 'package:canteen2/home.dart';
 import 'package:canteen2/notification.dart';
-import 'package:canteen2/shopping.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,12 +32,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          Provider(
-            create: (context) => CartModel(),
-          ),
-        ],
+    return Provider(
+        create: (context) => CartModel(),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
@@ -122,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        children: const [
+        children: [
           history(),
           categories(),
           // shoppingScreen(),

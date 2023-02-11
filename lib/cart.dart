@@ -1,6 +1,5 @@
 import 'package:canteen2/cart_provider.dart';
 import 'package:canteen2/history.dart';
-import 'package:canteen2/shopping.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_text/custom_text.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,11 +12,17 @@ import 'cart_model.dart';
 import 'dart:convert';
 
 class cart extends StatefulWidget {
-  const cart({super.key});
+  late Map<String, dynamic> fire;
+  cart({super.key, fire});
 
   @override
   State<cart> createState() => _cartState();
 }
+
+bool click = false;
+int I = 1;
+int a = 1;
+int? n;
 
 showToast({
   required String text,
@@ -71,17 +76,20 @@ class _cartState extends State<cart> {
               'cart',
               style: TextStyle(color: Colors.white),
             )),
-        body: Consumer<CartModel>(
-          builder: ((context, data, child) {
-            if (data.cartItems.isEmpty) {
-              return const Center(
-                  child: Text(
-                'Your Cart is Empty',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
-              ));
-            } else {
+        body: FutureBuilder(
+            future: FirebaseFirestore.instance.collection('cart').get(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.data!.docs.isEmpty) {
+                return const Center(
+                  child: Text('cart is empty'),
+                );
+              }
               return ListView.separated(
                 itemBuilder: ((context, index) {
+                  DocumentSnapshot snappp =
+                      (snapshot.data as dynamic).docs[index];
                   void _incrementCounter() {
                     setState(() {
                       number[index]++;
@@ -102,8 +110,8 @@ class _cartState extends State<cart> {
                     if (mounted) {
                       setState(() {
                         Indexx = index;
-                        cash[Indexx!] = data.cartItems[index]['price'];
-                        productName[Indexx!] = data.cartItems[index]['name'];
+                        cash[Indexx!] = int.parse(snappp['price']);
+                        productName[Indexx!] = snappp['cart item'];
                       });
                     }
                   });
@@ -121,25 +129,24 @@ class _cartState extends State<cart> {
                         Container(
                             width: 140,
                             child: ClipRRect(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
-                              child: Image.network(
-                                data.cartItems[index]['image'],
-                                fit: BoxFit.fill,
-                              ),
-                            )),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                child: Image.network(
+                                  snappp['image'],
+                                  fit: BoxFit.fill,
+                                ))),
                         Padding(
                           padding: const EdgeInsets.only(top: 20, left: 20),
                           child: Column(
                             children: [
                               Text(
-                                data.cartItems[index]['name'],
+                                snappp['cart item'],
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
                                 height: 6,
                               ),
-                              Text('${data.cartItems[index]['price']} L.E'),
+                              Text('${snappp['price']} L.E'),
                               SizedBox(
                                 height: 6,
                               ),
@@ -191,26 +198,27 @@ class _cartState extends State<cart> {
                               color: Colors.red,
                               size: 50,
                             ),
-                            onPressed: () {
-                              Provider.of<CartModel>(context, listen: false)
-                                  .removeItemFromCart(index);
-                            }),
+                            onPressed: () async {
+                              await FirebaseFirestore.instance
+                                  .collection("cart")
+                                  .doc((snapshot.data!.docs[index].reference.id
+                                      .toString()))
+                                  .delete();
+                            })
                       ],
                     ),
                   );
                 }),
-                itemCount: data.cartItems.length,
+                itemCount: (snapshot.data! as dynamic).docs.length,
                 separatorBuilder: (BuildContext context, int index) {
                   return SizedBox(
                     height: 15,
                   );
                 },
               );
-            }
-          }),
-        ),
+            }),
         floatingActionButton: FloatingActionButton(
-            onPressed: () {
+            onPressed: () async {
               if (Indexx != null) {
                 for (int i = Indexx!; i >= 0; i--) {
                   setState(() {
@@ -224,8 +232,13 @@ class _cartState extends State<cart> {
                     a++;
                   });
 
-                  Provider.of<CartModel>(context, listen: false)
-                      .removeItemFromCart(i);
+                  await FirebaseFirestore.instance
+                      .collection("cart")
+                      .get()
+                      .then((value) => {
+                            for (DocumentSnapshot ds in value.docs)
+                              {ds.reference.delete()}
+                          });
                 }
 
                 showToast(text: 'Sold successfully', color: Colors.amberAccent);
