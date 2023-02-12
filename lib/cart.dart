@@ -1,5 +1,6 @@
 import 'package:canteen2/cart_provider.dart';
 import 'package:canteen2/history.dart';
+import 'package:canteen2/variables.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_text/custom_text.dart';
 import 'package:flutter/cupertino.dart';
@@ -237,14 +238,11 @@ class _cartState extends State<cart> {
                     Indexxx = Indexx;
 
                     productNum[i] = number[i];
-
+                    number[i] = 1;
                     X++;
                     a++;
                   });
                 }
-                setState(() {
-                  Indexx = null;
-                });
 
                 showToast(text: 'Sold successfully', color: Colors.amberAccent);
               } else {
