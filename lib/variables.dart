@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:canteen2/cart.dart';
 import 'package:canteen2/cart_provider.dart';
 import 'package:canteen2/widget.dart';
@@ -51,7 +52,11 @@ class _productState extends State<product> {
                   borderRadius: BorderRadius.circular(20),
                   child: SizedBox.fromSize(
                       size: Size.fromRadius(20),
-                      child: Image.network('${widget.image}')),
+                      child: CachedNetworkImage(
+                        imageUrl: widget.image,
+                        placeholder: (context, url) => Image.network(
+                            'https://www.shutterstock.com/image-vector/box-packaging-icon-vector-template-600w-1405633748.jpg'),
+                      )),
                 ),
               ),
             ),
@@ -83,10 +88,6 @@ class _productState extends State<product> {
                     'image': '${widget.image}'
                   });
 
-                  // await Provider.of<CartModel>(context, listen: false)
-                  //     .fire(widget.boolean, widget.doc);
-                  // await Provider.of<CartModel>(context, listen: false)
-                  //     .addItemToCart(widget.boolean, widget.doc);
                   setState(() {
                     I++;
                     widget.boolian = true;
