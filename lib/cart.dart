@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:canteen2/cart_provider.dart';
 import 'package:canteen2/history.dart';
 import 'package:canteen2/variables.dart';
@@ -84,7 +85,11 @@ class _cartState extends State<cart> {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.data!.docs.isEmpty) {
                 return const Center(
-                  child: Text('cart is empty'),
+                  child: Text(
+                    'Your Cart is Empty',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+                  ),
                 );
               }
               return ListView.separated(
@@ -133,9 +138,11 @@ class _cartState extends State<cart> {
                             child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20)),
-                                child: Image.network(
-                                  snappp['image'],
+                                child: CachedNetworkImage(
                                   fit: BoxFit.fill,
+                                  imageUrl: snappp['image'],
+                                  placeholder: (context, url) => Image.network(
+                                      'https://www.shutterstock.com/image-vector/box-packaging-icon-vector-template-600w-1405633748.jpg'),
                                 ))),
                         Padding(
                           padding: const EdgeInsets.only(top: 20, left: 20),

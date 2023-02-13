@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:canteen2/variables.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,11 @@ class category extends StatelessWidget {
           children: [
             Container(
                 padding: EdgeInsets.only(top: 10),
-                child: Image.network(imagURL)),
+                child: CachedNetworkImage(
+                  imageUrl: imagURL,
+                  placeholder: (context, url) => Image.network(
+                      'https://static.thenounproject.com/png/101469-200.png'),
+                )),
             Center(
               child: DefaultTextStyle(
                 style: TextStyle(
