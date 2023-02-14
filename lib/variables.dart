@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:canteen2/cart.dart';
 import 'package:canteen2/cart_provider.dart';
+import 'package:canteen2/const.dart';
 import 'package:canteen2/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -15,20 +16,28 @@ class product extends StatefulWidget {
   int boolean;
   bool boolian;
   String doc;
-  product(
-      {super.key,
-      required this.name,
-      required this.price,
-      required this.image,
-      required this.boolean,
-      required this.boolian,
-      required this.doc});
+  static List<dynamic>? global;
+  int quantity;
+
+  product({
+    super.key,
+    required this.name,
+    required this.price,
+    required this.image,
+    required this.boolean,
+    required this.boolian,
+    required this.doc,
+    required this.quantity,
+  });
 
   @override
   State<product> createState() => _productState();
 }
 
+int? Count;
+int count = 1;
 // bool boolean = false;
+int order = 1;
 
 class _productState extends State<product> {
   @override
@@ -82,13 +91,25 @@ class _productState extends State<product> {
                 if (widget.boolian == false) {
                   CollectionReference cartItem =
                       FirebaseFirestore.instance.collection('cart');
-                  await cartItem.doc().set({
+                  await cartItem.doc(P.toString()).set({
                     'cart item': '${widget.name}',
                     'price': '${widget.price}',
-                    'image': '${widget.image}'
+                    'image': '${widget.image}',
+                    'quantity': '${widget.quantity}',
                   });
-
+                  CollectionReference orderedItem = FirebaseFirestore.instance
+                      .collection('orders')
+                      .doc('$order')
+                      .collection('order$order');
+                  await orderedItem.doc().set({
+                    'order item': '${widget.name}',
+                    'price': '${widget.price}',
+                    'image': '${widget.image}',
+                    'quantity': '${widget.quantity}',
+                  });
                   setState(() {
+                    P++;
+
                     I++;
                     widget.boolian = true;
                   });

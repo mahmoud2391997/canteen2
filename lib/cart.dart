@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:canteen2/cart_provider.dart';
+import 'package:canteen2/const.dart';
 import 'package:canteen2/history.dart';
 import 'package:canteen2/variables.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -99,15 +100,21 @@ class _cartState extends State<cart> {
                       (snapshot.data as dynamic).docs[index];
                   void _incrementCounter() {
                     setState(() {
-                      number[index]++;
+                      FirebaseFirestore.instance
+                          .collection('cart')
+                          .doc((index + 1).toString())
+                          .update({'quantity': FieldValue.increment(1)});
                       Indexx = index;
                     });
                   }
 
                   void _decrementCounter() {
-                    if (number != 1) {
+                    if (snappp['quantity'] > 1) {
                       setState(() {
-                        number[index]--;
+                        FirebaseFirestore.instance
+                            .collection('cart')
+                            .doc((index + 1).toString())
+                            .update({'quantity': FieldValue.increment(-1)});
                         Indexx = index;
                       });
                     }
@@ -180,7 +187,7 @@ class _cartState extends State<cart> {
                                         height: 20,
                                       ),
                                       Text(
-                                        '${number[index]}',
+                                        snappp['quantity'].toString(),
                                       ),
                                       SizedBox(
                                         height: 20,
@@ -213,6 +220,28 @@ class _cartState extends State<cart> {
                                   .doc((snapshot.data!.docs[index].reference.id
                                       .toString()))
                                   .delete();
+                              CollectionReference snapppshot = FirebaseFirestore
+                                  .instance
+                                  .collection("orders");
+                              // .doc('$order')
+                              // .collection('order$order')
+                              // .doc();
+                              snapppshot
+                                  .doc('$order')
+                                  .collection('order$order')
+                                  .get()
+                                  .then((QuerySnapshot querySnapshot) => {
+                                        querySnapshot.docs[index].reference
+                                            .delete()
+                                      });
+                              // DocumentSnapshot snappp = await snapppshot.get();
+                              // var doc_id = snappp[index].reference.id;
+                              // await FirebaseFirestore.instance
+                              //     .collection("orders")
+                              //     .doc('$order')
+                              //     .collection('order$order')
+                              //     .doc('$doc_id')
+                              //     .delete();
                             })
                       ],
                     ),
@@ -250,7 +279,10 @@ class _cartState extends State<cart> {
                     a++;
                   });
                 }
-
+                setState(() {
+                  P = 1;
+                  order++;
+                });
                 showToast(text: 'Sold successfully', color: Colors.amberAccent);
               } else {
                 showToast(

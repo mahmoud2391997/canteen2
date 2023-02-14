@@ -15,14 +15,6 @@ class categories extends StatefulWidget {
 }
 
 int? C;
-List<String> documents = [
-  "bakery goods",
-  "candies",
-  "chips",
-  "dairy products",
-  "jucies",
-  "soda"
-];
 
 class _categoriesState extends State<categories> {
   @override

@@ -12,6 +12,8 @@ class products extends StatefulWidget {
   State<products> createState() => _productsState();
 }
 
+int P = 1;
+
 class _productsState extends State<products> {
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,7 @@ class _productsState extends State<products> {
                     boolean: index,
                     boolian: false,
                     doc: widget.document,
+                    quantity: 1,
                   );
                 });
           }),
