@@ -5,30 +5,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:canteen2/categories.dart';
 
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
-
-  @override
-  State<MyWidget> createState() => _MyWidgetState();
-}
-
-class _MyWidgetState extends State<MyWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
-class CartModel extends ChangeNotifier {
-  List _shopItems = [];
+class orderModel extends ChangeNotifier {
+  List _order = [];
   // list of items on sale
 
   // list of cart items
-  List _cartItems = [];
+  List _ordered = [];
 
-  get cartItems => _cartItems;
+  get ordered => _ordered;
 
-  get shopItems => _shopItems;
+  get order => _order;
 
   // Future fire(int index, String docs) async {
   //   await FirebaseFirestore.instance
@@ -53,7 +39,7 @@ class CartModel extends ChangeNotifier {
         .collection('products')
         .get()
         .then((QuerySnapshot snapshot) =>
-            {_shopItems.add(snapshot.docs[index].data())});
+            {_order.add(snapshot.docs[index].data())});
     // await FirebaseFirestore.instance
     //     .collection('categories')
     //     .get()
@@ -83,13 +69,13 @@ class CartModel extends ChangeNotifier {
     // for (int i = 0; i <= index; i++) {
     //   print(_shopItems[i]);
     // }
-    _cartItems.add(_shopItems[index]);
+    _ordered.add(_order[index]);
     notifyListeners();
   }
 
   // remove item from cart
   void removeItemFromCart(int index) {
-    _cartItems.removeAt(index);
+    _order.removeAt(index);
     notifyListeners();
     number[index] = 1;
   }
@@ -97,8 +83,8 @@ class CartModel extends ChangeNotifier {
   // calculate total price
   String calculateTotal() {
     double totalPrice = 0;
-    for (int i = 0; i < cartItems.length; i++) {
-      totalPrice += double.parse(cartItems[i][1]);
+    for (int i = 0; i < order.length; i++) {
+      totalPrice += double.parse(order[i][1]);
     }
     return totalPrice.toStringAsFixed(2);
   }

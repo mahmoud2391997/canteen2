@@ -3,6 +3,7 @@ import 'package:canteen2/cart.dart';
 import 'package:canteen2/cart_provider.dart';
 import 'package:canteen2/home.dart';
 import 'package:canteen2/notification.dart';
+import 'package:canteen2/test.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';

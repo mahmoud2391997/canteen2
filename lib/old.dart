@@ -23,9 +23,9 @@ class _oldState extends State<old> {
               'cart',
               style: TextStyle(color: Colors.white),
             )),
-        body: Consumer<CartModel>(
+        body: Consumer<orderModel>(
           builder: ((context, data, child) {
-            if (data.cartItems.isEmpty) {
+            if (data.order.isEmpty) {
               return const Center(
                   child: Text(
                 'Your Cart is Empty',
@@ -50,7 +50,7 @@ class _oldState extends State<old> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
                               child: Image.network(
-                                data.cartItems[index]['image'],
+                                data.order[index]['image'],
                                 fit: BoxFit.fill,
                               ),
                             )),
@@ -59,13 +59,13 @@ class _oldState extends State<old> {
                           child: Column(
                             children: [
                               Text(
-                                data.cartItems[index]['product'],
+                                data.order[index]['product'],
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
                                 height: 6,
                               ),
-                              Text('${data.cartItems[index]['price']} L.E'),
+                              Text('${data.order[index]['price']} L.E'),
                               SizedBox(
                                 height: 6,
                               ),
@@ -115,14 +115,14 @@ class _oldState extends State<old> {
                               size: 50,
                             ),
                             onPressed: () {
-                              Provider.of<CartModel>(context, listen: false)
+                              Provider.of<orderModel>(context, listen: false)
                                   .removeItemFromCart(index);
                             }),
                       ],
                     ),
                   );
                 }),
-                itemCount: data.cartItems.length,
+                itemCount: data.order.length,
                 separatorBuilder: (BuildContext context, int index) {
                   return SizedBox(
                     height: 15,

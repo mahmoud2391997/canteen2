@@ -98,12 +98,27 @@ class _cartState extends State<cart> {
                   widget.index = index;
                   DocumentSnapshot snappp =
                       (snapshot.data as dynamic).docs[index];
+                  var a = FirebaseFirestore.instance
+                      .collection('orders')
+                      .doc(l)
+                      .collection('order${index + 1}')
+                      .get;
                   void _incrementCounter() {
                     setState(() {
                       FirebaseFirestore.instance
                           .collection('cart')
                           .doc((index + 1).toString())
                           .update({'quantity': FieldValue.increment(1)});
+                      FirebaseFirestore.instance
+                          .collection('orders')
+                          .doc(l)
+                          .collection('order')
+                          .get()
+                          .then((QuerySnapshot querySnapshot) => {
+                                querySnapshot.docs[index].reference.update(
+                                    {'quantity': FieldValue.increment(1)})
+                              });
+
                       Indexx = index;
                     });
                   }
@@ -215,6 +230,12 @@ class _cartState extends State<cart> {
                               size: 50,
                             ),
                             onPressed: () async {
+                              final QuerySnapshot _Q = await FirebaseFirestore
+                                  .instance
+                                  .collection('orders')
+                                  .get();
+                              var _f = _Q.docs.length;
+                              int qSnap = (await order.count().get()).count;
                               await FirebaseFirestore.instance
                                   .collection("cart")
                                   .doc((snapshot.data!.docs[index].reference.id
@@ -226,14 +247,23 @@ class _cartState extends State<cart> {
                               // .doc('$order')
                               // .collection('order$order')
                               // .doc();
-                              snapppshot
-                                  .doc('$order')
-                                  .collection('order$order')
-                                  .get()
-                                  .then((QuerySnapshot querySnapshot) => {
+
+                              snapppshot.doc(l).collection('order').get().then(
+                                  (QuerySnapshot querySnapshot) => {
                                         querySnapshot.docs[index].reference
                                             .delete()
                                       });
+                              QuerySnapshot<Map<String, dynamic>> queryyy =
+                                  await FirebaseFirestore.instance
+                                      .collection('cart')
+                                      .get();
+
+                              if (queryyy.docs.isEmpty) {
+                                FirebaseFirestore.instance
+                                    .collection('orders')
+                                    .doc(l)
+                                    .delete();
+                              }
                               // DocumentSnapshot snappp = await snapppshot.get();
                               // var doc_id = snappp[index].reference.id;
                               // await FirebaseFirestore.instance
@@ -279,9 +309,17 @@ class _cartState extends State<cart> {
                     a++;
                   });
                 }
+
+                CollectionReference sales =
+                    FirebaseFirestore.instance.collection('sales');
+                await sales.doc('cash').set({
+                  'total products': '${totalPiecies}',
+                  'total cash': '${totalCash}',
+                });
                 setState(() {
+                  getCash();
                   P = 1;
-                  order++;
+                  boolean = true;
                 });
                 showToast(text: 'Sold successfully', color: Colors.amberAccent);
               } else {
