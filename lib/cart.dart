@@ -316,11 +316,13 @@ class _cartState extends State<cart> {
                   'total products': '${totalPiecies}',
                   'total cash': '${totalCash}',
                 });
-                setState(() {
-                  getCash();
-                  P = 1;
-                  boolean = true;
-                });
+                if (mounted) {
+                  setState(() {
+                    getCash();
+                    P = 1;
+                    boolean = true;
+                  });
+                }
                 showToast(text: 'Sold successfully', color: Colors.amberAccent);
               } else {
                 showToast(
