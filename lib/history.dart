@@ -18,12 +18,15 @@ Future<dynamic> getCash() async {
   DocumentReference products =
       FirebaseFirestore.instance.collection('sales').doc('cash');
   final snapshot = await FirebaseFirestore.instance.collection('sales').get();
-
-  var allResult = await products.get().then((value) {
-    p = value['total cash'];
-    z = value['total products'];
-  });
-  return allResult;
+  if (snapshot.docs.isEmpty) {
+    p = 0;
+    z = 0;
+  } else {
+    var allResult = await products.get().then((value) {
+      p = value['total cash'];
+      z = value['total products'];
+    });
+  }
 }
 
 class _historyState extends State<history> {
