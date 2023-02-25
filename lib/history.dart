@@ -13,28 +13,30 @@ class history extends StatefulWidget {
 
 int totalPiecies = 0;
 int totalCash = 0;
-var p, z;
-Future<dynamic> getCash() async {
-  DocumentReference products =
-      FirebaseFirestore.instance.collection('sales').doc('cash');
-  final snapshot = await FirebaseFirestore.instance.collection('sales').get();
-  if (snapshot.docs.isEmpty) {
-    p = 0;
-    z = 0;
-  } else {
-    var allResult = await products.get().then((value) {
-      p = value['total cash'];
-      z = value['total products'];
-    });
-  }
-}
+int? p, z;
 
 class _historyState extends State<history> {
+  Future<dynamic> getCash() async {
+    DocumentReference products =
+        FirebaseFirestore.instance.collection('sales').doc('cash');
+
+    var allResult = await products.get().then((value) {
+      setState(() {
+        p = value['total cash'];
+        z = value['total products'];
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    getCash();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      getCash();
-    });
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 5, 3, 85),

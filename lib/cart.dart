@@ -202,7 +202,7 @@ class _cartState extends State<cart> {
                                         height: 20,
                                       ),
                                       Text(
-                                        snappp['quantity'].toString(),
+                                        snappp['quantity'],
                                       ),
                                       SizedBox(
                                         height: 20,
@@ -313,14 +313,15 @@ class _cartState extends State<cart> {
                 CollectionReference sales =
                     FirebaseFirestore.instance.collection('sales');
                 await sales.doc('cash').set({
-                  'total products': '${totalPiecies}',
-                  'total cash': '${totalCash}',
+                  'total products': z! + totalPiecies,
+                  'total cash': p! + totalCash,
                 });
                 if (mounted) {
                   setState(() {
-                    getCash();
                     P = 1;
                     boolean = true;
+                    totalPiecies = 0;
+                    totalCash = 0;
                   });
                 }
                 showToast(text: 'Sold successfully', color: Colors.amberAccent);
