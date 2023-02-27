@@ -29,13 +29,18 @@ class _addItemState extends State<addItem> {
       maxWidth: 512,
       imageQuality: 90,
     );
-    Reference ref = FirebaseStorage.instance.ref().child("profilepic.jpg");
-    await ref.putFile(File(image!.path));
-    ref.getDownloadURL().then((value) async {
-      setState(() {
-        profilePicLink = value;
+
+    if (image == null) {
+      showToast(text: 'No image is selected!', color: Colors.amberAccent);
+    } else {
+      Reference ref = FirebaseStorage.instance.ref().child("profilepic.jpg");
+      await ref.putFile(File(image.path));
+      ref.getDownloadURL().then((value) async {
+        setState(() {
+          profilePicLink = value;
+        });
       });
-    });
+    }
   }
 
   pickImage(ImageSource source) async {
@@ -144,7 +149,7 @@ class _addItemState extends State<addItem> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: MaterialButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (profilePicLink == " " ||
                             price.text.isEmpty ||
                             name.text.isEmpty ||
@@ -153,27 +158,33 @@ class _addItemState extends State<addItem> {
                               text: 'fill in all product info',
                               color: Colors.amberAccent);
                         } else {
-                          pricee = int.parse(price.text);
-                          Map<String, dynamic> dataToSave = {
-                            'product': name.text,
-                            'price': pricee,
-                            'image': profilePicLink,
-                          };
-                          FirebaseFirestore.instance
-                              .collection('categories')
-                              .doc('${category.text}')
-                              .collection('products')
-                              .add(dataToSave);
-                          setState(() {
-                            name = TextEditingController();
-                            price = TextEditingController();
-                            category = TextEditingController();
+                          try {
+                            pricee = int.parse(price.text);
+                            Map<String, dynamic> dataToSave = {
+                              'product': name.text,
+                              'price': pricee,
+                              'image': profilePicLink,
+                            };
+                            FirebaseFirestore.instance
+                                .collection('categories')
+                                .doc('${category.text}')
+                                .collection('products')
+                                .add(dataToSave);
+                            setState(() {
+                              name = TextEditingController();
+                              price = TextEditingController();
+                              category = TextEditingController();
 
-                            profilePicLink = " ";
-                          });
-                          showToast(
-                              text: 'Added to products',
-                              color: Colors.amberAccent);
+                              profilePicLink = " ";
+                            });
+                            showToast(
+                                text: 'Added to products',
+                                color: Colors.amberAccent);
+                          } on FormatException catch (e) {
+                            showToast(
+                                text: 'price should be a number',
+                                color: Colors.amberAccent);
+                          }
                         }
                       },
                       child: Padding(
