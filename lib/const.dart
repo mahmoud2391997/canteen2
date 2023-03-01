@@ -54,7 +54,6 @@ class _productsState extends State<products> {
                     price: snap['price'],
                     image: snap['image'],
                     boolean: index,
-                    boolian: false,
                     doc: widget.document,
                     quantity: 1,
                   );
