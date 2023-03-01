@@ -106,7 +106,7 @@ class _productState extends State<product> {
                     int qSnap = (await order.count().get()).count + 1;
                     CollectionReference cartItem =
                         FirebaseFirestore.instance.collection('cart');
-                    await cartItem.doc().set({
+                    await cartItem.doc('$P').set({
                       'cart item': '${widget.name}',
                       'price': '${widget.price}',
                       'image': '${widget.image}',

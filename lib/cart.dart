@@ -118,7 +118,14 @@ class _cartState extends State<cart> {
                                 querySnapshot.docs[index].reference.update(
                                     {'quantity': FieldValue.increment(1)})
                               });
-
+                      final snapppshot =
+                          FirebaseFirestore.instance.collection('cart');
+                      snapppshot
+                          .doc((index + 1).toString())
+                          .get()
+                          .then((value) {
+                        number[index] = value['quantity'];
+                      });
                       Indexx = index;
                     });
                   }
@@ -130,6 +137,23 @@ class _cartState extends State<cart> {
                             .collection('cart')
                             .doc((index + 1).toString())
                             .update({'quantity': FieldValue.increment(-1)});
+                        FirebaseFirestore.instance
+                            .collection('orders')
+                            .doc(l)
+                            .collection('order')
+                            .get()
+                            .then((QuerySnapshot querySnapshot) => {
+                                  querySnapshot.docs[index].reference.update(
+                                      {'quantity': FieldValue.increment(-1)})
+                                });
+                        final snapppshot =
+                            FirebaseFirestore.instance.collection('cart');
+                        snapppshot
+                            .doc((index + 1).toString())
+                            .get()
+                            .then((value) {
+                          number[index] = value['quantity'];
+                        });
                         Indexx = index;
                       });
                     }
@@ -202,7 +226,7 @@ class _cartState extends State<cart> {
                                         height: 20,
                                       ),
                                       Text(
-                                        snappp['quantity'],
+                                        "${snappp['quantity']}",
                                       ),
                                       SizedBox(
                                         height: 20,
@@ -289,6 +313,7 @@ class _cartState extends State<cart> {
             onPressed: () async {
               final snappshot =
                   await FirebaseFirestore.instance.collection('cart').get();
+
               if (snappshot.docs.isNotEmpty) {
                 await FirebaseFirestore.instance
                     .collection("cart")
@@ -297,17 +322,16 @@ class _cartState extends State<cart> {
                           for (DocumentSnapshot ds in value.docs)
                             {ds.reference.delete()}
                         });
-                for (int i = Indexx!; i >= 0; i--) {
-                  setState(() {
-                    totalPiecies = totalPiecies + number[i];
-                    totalCash = totalCash + (cash[i]) * (number[i]);
-                    Indexxx = Indexx;
 
-                    productNum[i] = number[i];
-                    number[i] = 1;
-                    X++;
-                    a++;
-                  });
+                for (int i = Indexx!; i >= 0; i--) {
+                  totalPiecies = totalPiecies + number[i];
+                  totalCash = totalCash + (cash[i]) * (number[i]);
+                  Indexxx = Indexx;
+
+                  productNum[i] = number[i];
+                  number[i] = 1;
+                  X++;
+                  a++;
                 }
 
                 CollectionReference sales =

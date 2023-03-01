@@ -18,7 +18,7 @@ packages:
     source: hosted
     version: "2.10.0"
   bloc:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: bloc
       sha256: bd4f8027bfa60d96c8046dec5ce74c463b2c918dce1b0d36593575995344534a
@@ -34,7 +34,7 @@ packages:
     source: hosted
     version: "2.1.1"
   cached_network_image:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: cached_network_image
       sha256: fd3d0dc1d451f9a252b32d95d3f0c3c487bc41a75eba2e6097cb0b9c71491b15
@@ -74,7 +74,7 @@ packages:
     source: hosted
     version: "1.1.1"
   cloud_firestore:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: cloud_firestore
       sha256: a851106a2169c15614047b75ea10d0346650352c6669ab482306572aa4ed9a7d
@@ -122,7 +122,7 @@ packages:
     source: hosted
     version: "3.0.2"
   cupertino_icons:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: cupertino_icons
       sha256: e35129dc44c9118cee2a5603506d823bab99c68393879edb440e0090d07586be
@@ -130,7 +130,7 @@ packages:
     source: hosted
     version: "1.0.5"
   custom_text:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: custom_text
       sha256: "9cd0db67f6f0f1af3932f92282527d80dedb8a569b052dd04cda10b8e93c536a"
@@ -162,7 +162,7 @@ packages:
     source: hosted
     version: "6.1.4"
   firebase_core:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: firebase_core
       sha256: c129209ba55f3d4272c89fb4a4994c15bea77fb6de63a82d45fb6bc5c94e4355
@@ -185,8 +185,16 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  firebase_messaging_platform_interface:
+    dependency: "direct overridden"
+    description:
+      name: firebase_messaging_platform_interface
+      sha256: "00edf9a2806c8d8425b7de175b030c065e7b3efeae787acd4d0f103afd273b5d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.6"
   firebase_storage:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: firebase_storage
       sha256: "1801785c8bce9b0b262f5daf36e1a48907620147b8065a25e3ad7ae2e890fc11"
@@ -215,7 +223,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_bloc:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: flutter_bloc
       sha256: "890c51c8007f0182360e523518a0c732efb89876cb4669307af7efada5b55557"
@@ -255,7 +263,7 @@ packages:
     source: hosted
     version: "2.0.7"
   flutter_svg:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: flutter_svg
       sha256: "6ff9fa12892ae074092de2fa6a9938fb21dbabfdaa2ff57dc697ff912fc8d4b2"
@@ -273,7 +281,7 @@ packages:
     source: sdk
     version: "0.0.0"
   fluttertoast:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: fluttertoast
       sha256: "7cc92eabe01e3f1babe1571c5560b135dfc762a34e41e9056881e2196b178ec1"
@@ -297,7 +305,7 @@ packages:
     source: hosted
     version: "4.0.2"
   image_picker:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: image_picker
       sha256: f98d76672d309c8b7030c323b3394669e122d52b307d2bbd8d06bd70f5b2aabe
@@ -505,7 +513,7 @@ packages:
     source: hosted
     version: "4.2.4"
   provider:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: provider
       sha256: cdbe7530b12ecd9eb455bdaa2fcb8d4dad22e80b8afb4798b41479d5ce26847f
