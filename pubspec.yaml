@@ -78,6 +78,9 @@ flutter:
   assets:
      - assets/croissant.jpg
      - assets/add_product.png
+     - assets/bracelet.jpg
+     - assets/icon.jpg
+     - assets/scan.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

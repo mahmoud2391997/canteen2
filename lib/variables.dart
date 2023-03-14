@@ -103,6 +103,7 @@ class _productState extends State<product> {
                   if (widget.boolian == false ||
                       value.docs.isEmpty ||
                       widget.boolian == null) {
+                    showToast(text: 'Added to cart', color: Colors.amberAccent);
                     int qSnap = (await order.count().get()).count + 1;
                     CollectionReference cartItem =
                         FirebaseFirestore.instance.collection('cart');
@@ -166,82 +167,11 @@ class _productState extends State<product> {
                         // widget.boolian = false;
                       });
                     }
-                    showToast(text: 'Added to cart', color: Colors.amberAccent);
                   } else {
                     showToast(
                         text: 'Already in cart!', color: Colors.amberAccent);
                   }
                 });
-
-                // if (widget.boolian == false) {
-                //   int qSnap = (await order.count().get()).count + 1;
-                //   CollectionReference cartItem =
-                //       FirebaseFirestore.instance.collection('cart');
-                //   await cartItem.doc().set({
-                //     'cart item': '${widget.name}',
-                //     'price': '${widget.price}',
-                //     'image': '${widget.image}',
-                //     'quantity': '${widget.quantity}',
-                //   });
-
-                //   QuerySnapshot<Map<String, dynamic>> _query =
-                //       await FirebaseFirestore.instance
-                //           .collection('orders')
-                //           .get();
-                //   QuerySnapshot<Map<String, dynamic>> _queryy =
-                //       await FirebaseFirestore.instance
-                //           .collectionGroup('order')
-                //           .get();
-                //   if (_query.docs.isNotEmpty && _queryy.docs.isNotEmpty) {
-                //     final QuerySnapshot Q = await FirebaseFirestore.instance
-                //         .collection('orders')
-                //         .get();
-                //     f = Q.docs.length + 1;
-                //   } else if (_query.docs.isEmpty) {
-                //     f = 1;
-                //   } else {
-                //     final QuerySnapshot Q = await FirebaseFirestore.instance
-                //         .collection('orders')
-                //         .get();
-                //     f = Q.docs.length;
-                //   }
-
-                //   ;
-                //   CollectionReference u =
-                //       FirebaseFirestore.instance.collection('orders');
-
-                //   if (boolean == true) {
-                //     var r = await u.add({'order number': '${f}'});
-                //     u.doc(r.id).collection('order').add({
-                //       'order item': '${widget.name}',
-                //       'price': '${widget.price}',
-                //       'image': '${widget.image}',
-                //       'quantity': '${widget.quantity}'
-                //     });
-                //     l = r.id;
-                //     boolean = false;
-                //   } else {
-                //     u.doc(l).collection('order').add({
-                //       'order item': '${widget.name}',
-                //       'price': '${widget.price}',
-                //       'image': '${widget.image}',
-                //       'quantity': '${widget.quantity}'
-                //     });
-                //   }
-
-                //   if (mounted) {
-                //     setState(() {
-                //       P++;
-
-                //       I++;
-                //       widget.boolian = true;
-                //     });
-                //   }
-                //   showToast(text: 'Added to cart', color: Colors.amberAccent);
-                // } else {
-                //   showToast(
-                //       text: 'Already in cart!', color: Colors.amberAccent);
-                // }
               },
               color: Color.fromARGB(255, 5, 3, 85),
               child: Text(

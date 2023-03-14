@@ -3,6 +3,7 @@ import 'package:canteen2/cart.dart';
 import 'package:canteen2/cart_provider.dart';
 import 'package:canteen2/home.dart';
 import 'package:canteen2/notification.dart';
+import 'package:canteen2/scanning.dart';
 import 'package:canteen2/test.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.grey[300],
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: const scanner(),
     );
   }
 }
