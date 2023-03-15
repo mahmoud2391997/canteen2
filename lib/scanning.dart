@@ -1,3 +1,4 @@
+import 'package:canteen2/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -51,7 +52,12 @@ class scanner extends StatelessWidget {
                 ),
                 child: MaterialButton(
                   textColor: Colors.white,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MyHomePage()));
+                  },
                   child: Text('GO'),
                 ),
               ),
