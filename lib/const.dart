@@ -1,3 +1,4 @@
+import 'package:canteen2/scanning.dart';
 import 'package:canteen2/variables.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,19 @@ int P = 1;
 class _productsState extends State<products> {
   @override
   Widget build(BuildContext context) {
+    var id = FirebaseFirestore.instance
+        .collection('Countries')
+        .doc('xXz0mjiHyWyjV4suHCQ4')
+        .collection('Schools')
+        .doc('iaa3NufaUPhjiRkO5LPK')
+        .collection('Canteen')
+        .doc('LGLZdZOAf1jpyVUTZxpl')
+        .collection('categories')
+        .doc(widget.document)
+        .collection('products')
+        .get();
+    // var s = id.where('allergy2', whereNotIn: allergies);
+    // var e = s.where('allergy3', whereNotIn: allergies).get();
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 5, 3, 85),
@@ -26,11 +40,7 @@ class _productsState extends State<products> {
             style: TextStyle(color: Colors.white),
           )),
       body: FutureBuilder(
-          future: FirebaseFirestore.instance
-              .collection('categories')
-              .doc(widget.document)
-              .collection('products')
-              .get(),
+          future: id,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(

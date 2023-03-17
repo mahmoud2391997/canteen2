@@ -1,4 +1,5 @@
 import 'package:canteen2/const.dart';
+import 'package:canteen2/scanning.dart';
 import 'package:canteen2/variables.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,14 @@ class _categoriesState extends State<categories> {
                 ),
                 FutureBuilder(
                     future: FirebaseFirestore.instance
+                        .collection('Countries')
+                        .doc('xXz0mjiHyWyjV4suHCQ4')
+                        .collection('Schools')
+                        .doc('iaa3NufaUPhjiRkO5LPK')
+                        .collection('Canteen')
+                        .doc('LGLZdZOAf1jpyVUTZxpl')
                         .collection('categories')
+                        .where('allergy', whereNotIn: allergies)
                         .get(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {

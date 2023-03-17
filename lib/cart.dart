@@ -348,7 +348,9 @@ class _cartState extends State<cart> {
                     totalCash = 0;
                   });
                 }
-                showToast(text: 'Sold successfully', color: Colors.amberAccent);
+                showToast(
+                    text: 'Sold successfully,scan for another transaction',
+                    color: Colors.amberAccent);
               } else {
                 showToast(
                     text: 'Nothing in the cart!', color: Colors.amberAccent);
