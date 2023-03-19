@@ -166,6 +166,12 @@ class _addItemState extends State<addItem> {
                               'image': profilePicLink,
                             };
                             FirebaseFirestore.instance
+                                .collection('Countries')
+                                .doc('xXz0mjiHyWyjV4suHCQ4')
+                                .collection('Schools')
+                                .doc('iaa3NufaUPhjiRkO5LPK')
+                                .collection('Canteen')
+                                .doc('LGLZdZOAf1jpyVUTZxpl')
                                 .collection('categories')
                                 .doc('${category.text}')
                                 .collection('products')
